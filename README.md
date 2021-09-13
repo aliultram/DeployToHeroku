@@ -1,281 +1,193 @@
-# Deploy to Heroku | English Guidline
-Guidline Languages : Enligsh and Persian | English Language
+<p align="center">
+    <img width="200" height="200" src="https://raw.githubusercontent.com/kdrag0n/pyrobud/master/assets/logo.png">
+</p>
 
-## Very Simple Steps
-1. Download Telegram from [here](https://telegram.org) , Then Install it .
-2. Create your Telegram bot by [BotFather](https://t.me/BotFather)
-3. if you don't installed Python on your System , Install Python from [here](https://www.python.org/downloads/windows/)
-4. Install git from this [link](https://git-scm.com/download/win)
-5. Register to Heroku from [here](https://signup.heroku.com/login)
-6. Install Heroku CLI from [here](https://devcenter.heroku.com/articles/heroku-cli)
+<h1 align="center">Pyrobud</h1>
 
-### [0] Step  [Optional]:
+<p align="center">
+    <a href="https://github.com/kdrag0n/pyrobud/releases"><img src="https://img.shields.io/github/v/tag/kdrag0n/pyrobud?sort=semver" alt="Latest tag"></a>
+    <a href="https://github.com/kdrag0n/pyrobud/actions?query=workflow%3A%22Build+%26+publish+Docker+image%22"><img src="https://img.shields.io/github/workflow/status/kdrag0n/pyrobud/Build%20%26%20publish%20Docker%20image" alt="CI status"></a>
+    <a href="https://t.me/pyrobud"><img src="https://img.shields.io/badge/chat-on%20telegram-blueviolet" alt="Telegram chat"></a>
+</p>
 
-- For first , Git clone this repository and go to DeployToHeroku Folder , then editing the files by below steps .
+Pyrobud is a clean selfbot for Telegram with an emphasis on quality and
+practicality.
 
-   ```shell
-   git clone https://github.com/RexxarCompany/DeployToHeroku.git
--  ```shell
-   cd DeployToHeroku 
-   
-### [1] Step :
+It's designed to complement the official clients rather than replace them as
+many other selfbots tend to lean towards. It is written in Python using
+the [Telethon](https://github.com/LonamiWebs/Telethon) library.
 
-- Right click on boy.py and replace your source , then Save&Close boy.py .
+A working installation of **Python 3.6** or newer is required to run Pyrobud.
 
-### [2] Step :
+## Compatibility
 
-- If you want rename bot.py , you should replace your custom name by editing *Procfile* file
- 
-   ```shell
-   worker: python YourCustomName.py
+Pyrobud should be compatible with all major operating systems. While it has not
+been officially tested on Windows or macOS, there should not be anything
+preventing it from working on those platforms. Please let me know if you've
+gotten it working so I can add it here.
 
-### [3] Step :
+It is also possible to run the bot on a smartphone. On Android it can be done
+with the [Termux](https://wiki.termux.com/wiki/Main_Page) app, and on iOS it
+should be possible using the [iSH](https://ish.app/) app.
 
-- Add any moudels which you have included in your project to *requirements.txt*
-  - Mine looks like this:
+## Installation
 
-   ```shell
-  future>=0.16.0
-  certifi
-  tornado>=5.1
-  cryptography
-  python-telegram-bot
+### Native dependencies
 
-### [4] Step :
-- Change directory to where you have made these files
-- now in git bash CLI, intialize a git
+Pyrobud uses the native LevelDB library for its database, so you'll need to
+install that first. Below are instructions for some common operating systems:
 
-  ```shell
-  git init
-  
-### [5] Step ::
-- Install heroku CLI
-- Next 
+| OS/Distro    | Command                      |
+| ------------ | ---------------------------- |
+| Arch Linux   | `pacman -S leveldb`          |
+| Ubuntu       | `apt install libleveldb-dev` |
+| macOS        | `brew install leveldb`       |
+| Termux       | `apt install leveldb`        |
+| FreeBSD      | `pkg install leveldb`        |
 
-   ```shell
-   heroku login
-   heroku create app_name
+### Using Docker
 
-- If you have already created app then select it:
+Simply run `docker run --rm -itv "$PWD/data:/data" kdrag0n/pyrobud` to run the
+latest unstable version with the data directory set to `data` in the current
+working directory. Feel free to customize the data directory as you wish, as
+long as you create `config.toml` in your chosen data directory using the
+instructions below. The data section of the Docker command should always look
+like `-v "/path/to/data:/data"`.
 
-   ```shell
-   heroku git:remote -a app_name
+Note that the official Docker image only supports Linux x86_64. Other operating
+systems and architectures are not supported. However, pull requests contributing
+such support are welcome.
 
- - Or else continue:
-     ```shell
-     git add -f bot.py Procfile requirements.txt __init__.py
- -  ```shell
-    git commit -m "Added Files"
+### Using pip
 
-- If you want add anyfiles like "bot.jpg" to your project on heroku , Just add the name of that file at the end of the blow line
+When using pip, it's highly recommended to install everything inside a virtual
+environment to minimize contamination of the system Python install, since many
+of the bot's dependencies are not typically packaged by Linux distributions.
+Such environments can easily be created using the following command:
+`python3 -m venv [target directory]`
 
-   ```shell
-   git add -f bot.py Procfile requirements.txt __init__.py bot.jpg
- -  ```shell
-    git commit -m "Added Files"
-  
-- Push files to heroku:
+They can then be activated using `source [target directory]/bin/activate` or the
+equivalent command and script for your shell of choice.
 
-    ```shell
-    git push heroku master
-- If it is not working then try this one:
+You can still install all the dependencies in your system Python environment,
+but please be aware of the potential issues when doing so. The installed packages
+may conflict with the system package manager's installed packages, which can
+cause trouble down the road and errors when upgrading conflicting packages.
+**You have been warned.**
 
-     ```shell
-     git push heroku master --force
-### At this point your bot should be running, you can check by
- 
- -  ```shell
-    heroku ps
+### Stable
 
-- If it is not running then we have to reset dynos:
-    ```shell
-    heroku ps:scale worker=0
- -  ```shell
-    heroku ps:scale worker=1
-- Now it should be running fine! Enjoy :)  
+You can obtain the latest stable version from PyPI:
 
+`python3 -m pip install pyrobud`
 
-### Do you need a Video Tutorial?
-- Check Rexxar Youtube in [Here!](https://www.youtube.com/channel/UCJJfE0UeVfAVYsy90M7cdgQ)
+If are able to install libffi and OpenSSL development headers, installing the
+fast variant is highly recommended:
 
-Contact us : 
+`python3 -m pip install pyrobud[fast]`
 
-	Website : rexxar.ir
-	Telegram : rexxar_ir
-	Instagram : rexxar.ir
-![working](https://github.com/RexxarCompany/DeployToHeroku/blob/master/WorkingBot.gif)
+The native dependencies can be installed on Ubuntu with the following command:
 
-<div dir="rtl">
-   
-   # راه اندازی ربات تلگرام در وبسایت Heroku   |  زبان راهنما : فارسی
-   زبان های راهنما : انگلیسی ، فارسی
-	
+`apt install libffi-dev libssl-dev`
 
-	
-   ## مراحل خیلی ابتدایی
-   1. برنامه تلگرام را از [اینجا](https://telegram.org) دانلود کنید و سپس آن را نصب کنید.
-   2. ربات تلگرام خود را توسط [BotFather](https://t.me/BotFather) بسازید.
-   3. اگر پایتون در سیستم شما نصب نیست ، پایتون را از [اینجا](https://www.python.org/downloads/windows/) دانلود کنید و سپس نصب کنید.
-   4. برنامه git را از طریق این [لینک](https://git-scm.com/download/win) دانلود و سپس نصب کنید.
-   5. از طریق این [لینک](https://signup.heroku.com/login) در وبسایت Heroku ثبت نام کنید.
-   6. برنامه Heroku CLI را از طریق این [لینک](https://devcenter.heroku.com/articles/heroku-cli) دانلود و نصب کنید.
-	
-   ### مرحله 0 :
+You will need to find the corresponding packages on your OS or distribution of
+choice in order for the fast variant to install successfully.
 
-   - برای شروع با استفاده از دستور زیر این repository را clone کنید و سپس طبق مراحل زیر تغییرات مختص به خودتان را انجام بدهید. 
-<div dir="ltr">
-  
-   -  ```shell
-      git clone https://github.com/RexxarCompany/DeployToHeroku.git
-   -  ```shell
-      cd DeployToHeroku	   
-</div>
+Without the fast variant's `cryptg` encryption accelerator, the bot will be
+**extremely slow** when dealing with any files — even small ones. Download and
+upload speeds can be as slow as kilobytes per second without it.
 
-   ### مرحله یک :
+### Bleeding-edge
 
-   - بر روی bot.py کلیک راست کنید و کد های مربوط بات خودتان را در آن جایگزاری کنید و سپس فایل را ذخیره کنیدو ببنید.
+First, clone this Git repository locally:
+`git clone https://github.com/kdrag0n/pyrobud`
 
-   
-   ### مرحله دوم :
+After that, you can run `python3 -m pip install .` to install the bot along with
+the bare minimum dependencies. However, including the `fast` extras is highly
+recommended to improve performance: `python3 -m pip install .[fast]`
 
-   - اگر شما میخواهید نام فایل *bot.py* را تغییر دهید ، باید بعد از تغییر ، محتوای فایل *Procfile* را نیز تغییر دهید ، یعنی آنکه بر روی *Procfile* کلیک راست کنید
-	و سپس Edit with notepad را بزنید و به شکل کد زیر محتوا را تغییر بدهید یعنی بجای *YourCustomName.py* نام فایلی که کدتان درآن قرار دارد را بزنید.
- <div dir="ltr">
+Read the section above for more information on what `fast` does and why you
+should use it.
 
-   -  ```shell
-      worker: python YourCustomName.py
-</div>
-   
-   ### مرحله سوم :
+Once it's installed, you can choose to invoke it using the `pyrobud` command, or
+run the bot in-place (which is described later in the Usage section). Running it
+in-place is recommended to allow for automatic updates via Git.
 
-- نام هر ماژول یا کتاب خانه ای که داخل پروژه و سورس کد خود استفاده کرده اید را در فایل *requirements.txt* وارد کنید. 
+#### Error: `Directory '.' is not installable. File 'setup.py' not found.`
 
-	- به طور مثال چندین ماژول را در *requirements.txt* وارد کرده ایم :
-<div dir="ltr">
-	    
-	future>=0.16.0
-	certifi
-	tornado>=5.1
-	cryptography
-	python-telegram-bot
-</div>
+This common error is caused by an outdated version of pip. We use the Poetry
+package manager to make things easier to maintain, which works with pip through
+PEP-517. This is a relatively new standard, so a newer version of pip is necessary
+to make it work.
 
-### مرحله چهارم :
-- محیط Bash یا CMD را باز کنید و به محلی که فایل هایتان یعنی *bot.py* قرار دارد ، بروید. 
-- در همان محیط با کمک کد زیر ، git را راه اندازی کنید.
+Upgrade to pip 19 to fix this issue: `pip3 install -U pip`
 
-<div dir="ltr">
-  
-   -  ```shell
-      git init	   
-</div>
+## Configuration
 
-### مرحله پنجم :
-- heroku CLI را نصب کنید.
-- سپس دستور زیر را وارد کنید : 
+Copy `config.example.toml` to `config.toml` and edit the settings as desired.
+Each and every setting is documented by the comments above it.
 
-<div dir="ltr">
-  
-   -  ```shell
-      heroku login
-      heroku create app_name	   
-</div>
+Obtain the API ID and hash from [Telegram's website](https://my.telegram.org/apps).
+**TREAT THESE SECRETS LIKE A PASSWORD!**
 
-- اگر از قبل یک اپلیکیشن در وبسایت Heroku ساخته اید ، از کد زیر استفاده کنید و نام اپلیکیشن خود را جاگزین app_name کنید.
+Configuration must be complete before starting the bot for the first time for it
+to work properly.
 
- <div dir="ltr">
-  
-   -  ```shell
-      heroku git:remote -a app_name	   
-</div>
+## Usage
 
- - در ادامه کد زیر را وارد کنید ، دقت کنید که با استفاده از این کد ، در حقیقت پروژه خود را بر Heroku آپلود کرده اید :
- <div dir="ltr">
-  
-   -  ```shell
-      git add -f bot.py Procfile requirements.txt __init__.py
-   -  ```shell
-      git commit -m "Added Files"	   
-</div>
-     
+To start the bot, type `python3 main.py` if you are running it in-place or use
+command corresponding to your chosen installation method above.
 
-- ممکن است پروژه شما از فایل های بیشتر و دیگری برخوردار باشد ، برای اضافه کردن هر فایلی به وبسایت Heroku کافیست نام آن فایل را در انتها خط زیر اضافه کنید.
-	به طور مثال فایل *bot.jpg* را بخواهیم اضافه کنیم ، به این شکل این کد ها را دوباره وارد میکنیم : 
- <div dir="ltr">
-  
-   -  ```shell
-      git add -f bot.py Procfile requirements.txt __init__.py bot.jpg
-   -  ```shell
-      git commit -m "Added Files"	   
-</div>
-  
-- با استفاده از دستور زیر ، آپلود فایل هایتان آغاز میشود و بر وبسایت Heroku قرار میگیرد.
- <div dir="ltr">
-  
-   -  ```shell
-      git push heroku master   
-</div>
-- اگر در هنگام وارد کردن کد بالا با ارور مواجه شدید ، کد زیر را وارد نمایید :
+When asked for your phone number, it is important that you type out the **full**
+phone number of your account, including the country code, without any symbols
+such as spaces, hyphens, pluses, or parentheses. For example, the US number
+`+1 (234) 567-8910` would be entered as `12345678910`. Any other format will be
+rejected by Telegram.
 
-<div dir="ltr">
-  
-   -  ```shell
-      git push heroku master  --force 
-</div>
+After the bot has started, you can run the `help` command to view all the
+available commands and modules. This can be done anywhere on Telegram as long as
+you prepend the command prefix to the name of the command you wish to invoke.
+The default prefix (if you haven't changed it in the config) is `.`, so one
+would type `.help` to run the command. All other commands work the same way,
+save for snippet replacements which are used with `/snipname/` anywhere in a
+message.
 
-### تبریک ، ربات شما در تلگرام ران شد ، اگر ران نبود با استفاده از کد زیر اطمینان حاصل کنید : 
- 
- <div dir="ltr">
-  
-   -  ```shell
-      heroku ps
-</div>
+## Deployment
 
+For long-term server deployments, an example systemd service is available
+[here](https://github.com/kdrag0n/pyrobud/blob/master/systemd/pyrobud.service).
+It is strongly recommended to use this service for any long-term deployments as
+it it includes parameters to improve security and restrict the system resources
+the bot can utilize to limit damage if something goes awry. The example assumes
+that the bot will run under an independent user named `pyrobud` with a virtual
+environment located at `/home/pyrobud/venv` and a Git clone of the bot located
+at `/home/pyrobud/pyrobud`. This setup avoids tainting the system's Python install
+with unmanaged packages and allows the bot to self-update using Git.
 
-- اگر ران نشده بود با استفاده از کد زیر dynos را ریست میکنیم :
-  
- <div dir="ltr">
-  
-   -  ```shell
-      heroku ps:scale worker=0
-   -  ```shell
-      heroku ps:scale worker=1
-</div>
+If you're using Docker to run the bot, use [pyrobud-docker.service](https://github.com/kdrag0n/pyrobud/blob/master/systemd/pyrobud-docker.service)
+instead.
 
+`tmux` or `screen` should never be used to run the bot in production. A supervisor,
+unlike a terminal multiplexer, contains a plethora of features crucial for proper
+deployments: automatic ratelimited restarting, logging, monitoring, and more. Some,
+such as systemd, also support limiting resources and and imposing restrictions for
+security. A shell script that invokes Python in a `while` loop is not a replacement
+for a proper supervisor.
 
-- حالا باید ران شده باشد ، امیدواریم از این آموزش لذت برده باشید. 
-   
+## Contributing
 
-	
+See the [Contribution Guidelines](https://github.com/kdrag0n/pyrobud/blob/master/CONTRIBUTING.md)
+for more information.
 
-### آیا در رابطه با این آموزش به ویدئو آموزشی احتیاج دارید ؟ 
+## Module Development
 
-- برای دیدن ویدئو آموزشی از طریق این [لینک](https://www.youtube.com/channel/UCJJfE0UeVfAVYsy90M7cdgQ) به یوتویوب رکسار مراجعه کنید. 
+You can easily develop custom modules! See the
+[Module Development Handbook](https://github.com/kdrag0n/pyrobud/blob/master/DEVELOPMENT.md)
+for more information.
 
-### تماس با ما :	
-<div dir="ltr">
-  
-  -  ```shell
-      Website : rexxar.ir
-      Telegram : rexxar_ir
-      Instagram : rexxar.ir   
-</div>
+## Support
 
-![working](https://github.com/RexxarCompany/DeployToHeroku/blob/master/WorkingBot.gif)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-
+Feel free to join the [official support group](https://t.me/pyrobud) on Telegram
+for help or general discussion regarding the bot. You may also
+[open an issue on GitHub](https://github.com/pyrobud/pyrobud/issues) for bugs,
+suggestions, or anything else relevant to the project.
